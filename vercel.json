@@ -9,11 +9,5 @@
       "src": "templates/**",
       "use": "@vercel/static"
     }
-  ],
-  "routes": [
-    {
-      "src": "/",
-      "dest": "/"
-    }
   ]
 }
