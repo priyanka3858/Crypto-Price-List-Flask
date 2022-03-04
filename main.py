@@ -2,11 +2,7 @@ from flask import Flask, render_template
 import requests
 
 # Create a flask app
-app = Flask(
-  __name__,
-  template_folder='templates',
-  static_folder='static'
-)
+app = Flask(__name__)
 
 # Index page
 @app.route('/')
