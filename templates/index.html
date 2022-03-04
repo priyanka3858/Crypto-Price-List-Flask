@@ -1,6 +1,6 @@
 <!doctype html>
 <head>
-    <title>My First Flask Website</title>
+    <title>Crypto Price List</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="container mx-auto my-20">
@@ -12,16 +12,28 @@
                     <thead class="bg-gray-50">
                     <tr>
                         <th scope="col"
-                            class="px-6 py-3 text-left text-xl text-justify font-medium text-black-500 uppercase tracking-wider">
+                            class="px-6 py-3 text-left text-md text-justify font-medium text-zinc-700 uppercase tracking-wider">
+                            #
+                        </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-md text-justify font-medium text-zinc-700 uppercase tracking-wider">
                             Name
                         </th>
                         <th scope="col"
-                            class="px-6 py-3 text-left text-xl text-justify font-medium text-black-500 uppercase tracking-wider">
-                            Symbol
+                            class="px-6 py-3 text-left text-md text-justify font-medium text-zinc-700 uppercase tracking-wider">
+                            Price
                         </th>
                         <th scope="col"
-                            class="px-6 py-3 text-left text-xl text-justify font-medium text-black-500 uppercase tracking-wider">
-                            Price
+                            class="px-6 py-3 text-left text-md text-justify font-medium text-zinc-700 uppercase tracking-wider">
+                            Market Cap
+                        </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-md text-justify font-medium text-zinc-700 uppercase tracking-wider">
+                            Volume (24h)
+                        </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-md text-justify font-medium text-zinc-700 uppercase tracking-wider">
+                            24h %
                         </th>
                     </tr>
                     </thead>
@@ -29,26 +41,62 @@
                     {%for i in range(0, len)%}
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">
-
-
+                            {{coin[i].market_cap_rank}}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
-                                <div class="flex-shrink-0 h-10 w-10">
-                                    <img class="h-10 w-10 rounded-full"
+                                <div class="flex-shrink-0 h-7 w-7">
+                                    <img class="rounded-full"
                                          src={{coin[i].image}} alt="">
                                 </div>
                                 <div class="ml-4">
-                                    <div class="lg font-medium text-gray-900">
+                                    <div class="font-medium">
                                         {{coin[i].name}}
+                                        <span class="text-sm text-gray-400">
+                                        ({{coin[i].symbol.upper()}})
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            {{coin[i].symbol.upper()}}
+                        <td class="text-sm px-6 py-4 whitespace-nowrap">
+                            ${{ "{:,}".format(coin[i].current_price)}}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            ${{coin[i].current_price}}
+                        <td class="text-sm px-6 py-4 whitespace-nowrap">
+                            ${{ "{:,}".format(coin[i].market_cap)}}
                         </td>
+                        <td class="text-sm px-6 py-4 whitespace-nowrap">
+                            ${{ "{:,}".format(coin[i].total_volume)}}
+                        </td>
+                        <td class="text-sm px-6 py-4 whitespace-nowrap">
+                            {% if
+                            "{:.2f}".format(coin[i].price_change_percentage_24h).find("-")
+                            != -1 %}
+
+                            <p class="flex text-red-600">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="h-5 w-5 pt-1" viewBox="0 0 20 20"
+                                     fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                          d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z"
+                                          clip-rule="evenodd"/>
+                                </svg>
+                                {{"{:.2f}".format(coin[i].price_change_percentage_24h).replace('-', '')}}%
+                            </p>
+                            {% else %}
+                            <p class="flex text-green-600">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="h-5 w-5 pt-1" viewBox="0 0 20 20"
+                                     fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                          d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z"
+                                          clip-rule="evenodd"/>
+                                </svg>
+                                {{"{:.2f}".format(coin[i].price_change_percentage_24h)}}%
+                            </p>
+                            {% endif %}
+                        </td>
+
                     </tr>
                     {%endfor%}
                     </tbody>
